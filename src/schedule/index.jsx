@@ -13,7 +13,7 @@ const Schedule = ()=>{
       <Typography paragraph>
         <h1>Schedule</h1>
       </Typography>
-      <Button variant="contained" sx={{ mb: 2 }} onClick={()=>scheduleTable=<ScheduleTable action="/generate"/>}>Generate new</Button>
+      <Button variant="contained" sx={{ mb: 2 }} onClick={()=>scheduleTable=<ScheduleTable action="generate"/>}>Generate new</Button>
       <Typography paragraph>
         {scheduleTable}
       </Typography>

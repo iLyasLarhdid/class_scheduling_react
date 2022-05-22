@@ -11,15 +11,25 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router-dom';
-
+import SettingsIcon from '@mui/icons-material/Settings';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import GroupsIcon from '@mui/icons-material/Groups';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import ClassIcon from '@mui/icons-material/Class';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 const drawerWidth = 240;
 
 const Navbar = ({body})=>{
   const navigate = useNavigate();
+  
+  //top items in the menu
+  const topItems = [['Professors','/professors',<AssignmentIndIcon/>], ['Modules', '/modules',<ClassIcon/>], ['Rooms','/rooms',<MeetingRoomIcon/>], ['Periods','/periods',<AccessTimeFilledIcon/>],['Groups','/groups',<GroupsIcon/>]];
+  //bottom items in the menu
+  const botItems = [['Schedule','/schedule',<DateRangeIcon/>],['Settings','/settings',<SettingsIcon/>]];
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -41,11 +51,11 @@ const Navbar = ({body})=>{
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {[['Professors','/professors'], ['Modules', '/modules'], ['Rooms','/rooms'], ['Periods','/periods'],['Groups','/groups']].map((text, index) => (
+            {topItems.map((text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton onClick={()=>navigate(text[1])}>
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {text[2]}
                   </ListItemIcon>
                   <ListItemText primary={text[0]} />
                 </ListItemButton>
@@ -54,11 +64,11 @@ const Navbar = ({body})=>{
           </List>
           <Divider />
           <List>
-            {[['Schedule','/schedule'],['Settings','/settings']].map((text, index) => (
+            {botItems.map((text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton onClick={()=>navigate(text[1])}>
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {text[2]}
                   </ListItemIcon>
                   <ListItemText primary={text[0]} />
                 </ListItemButton>

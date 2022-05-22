@@ -8,11 +8,13 @@ import Period from "./period";
 import Professor from './professor';
 import Schedule from "./schedule";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
+    <SnackbarProvider maxSnack={2}>
     <BrowserRouter>
     <QueryClientProvider client={queryClient}>  
       <Routes>
@@ -26,6 +28,7 @@ function App() {
       </Routes>
     </QueryClientProvider>
     </BrowserRouter>
+    </SnackbarProvider>
   );
 }
 

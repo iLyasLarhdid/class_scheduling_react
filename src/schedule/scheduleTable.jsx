@@ -18,12 +18,12 @@ export default function ScheduleTable({action}) {
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
-            <TableRow>
-                <TableCell>Groups</TableCell>
-                <TableCell align="right">Module</TableCell>
-                <TableCell align="right">Period</TableCell>
-                <TableCell align="right">Professor</TableCell>
-                <TableCell align="right">Room</TableCell>
+            <TableRow selected={true}>
+                <TableCell><b>Groups</b></TableCell>
+                <TableCell align="left"><b>Module</b></TableCell>
+                <TableCell align="left"><b>Period</b></TableCell>
+                <TableCell align="left"><b>Professor</b></TableCell>
+                <TableCell align="left"><b>Room</b></TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -32,13 +32,13 @@ export default function ScheduleTable({action}) {
                 key={datum.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" align="left">
                     {datum.group.groupTitle}
                 </TableCell>
-                <TableCell align="right">{datum.module.moduleCode}</TableCell>
-                <TableCell align="right">{datum.period.period}</TableCell>
-                <TableCell align="right">{datum.professor.name}</TableCell>
-                <TableCell align="right">{datum.room.title}</TableCell>
+                <TableCell align="left">{datum.module.moduleCode}</TableCell>
+                <TableCell align="left">{datum.period.period}</TableCell>
+                <TableCell align="left">{datum.professor.name}</TableCell>
+                <TableCell align="left">{datum.room.title}</TableCell>
                 </TableRow>
             ))}
             </TableBody>
