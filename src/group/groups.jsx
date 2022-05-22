@@ -1,4 +1,4 @@
-import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Collapse, IconButton, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import RoomApi from './groupApi';
  
@@ -62,7 +62,7 @@ function Row(props) {
     console.log(data);
     return (
         <div>
-          <h1>ALL Module</h1>
+          <h1>ALL Groups</h1>
           <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -73,7 +73,9 @@ function Row(props) {
               </TableRow>
               </TableHead>
               <TableBody>
-                  {data && data.map((row) => (
+                  {error && <div>{error}</div>}
+                  {isLoading &&  <Box sx={{ width: '100%' }}> <LinearProgress /> </Box>}
+                  {data && data.error === undefined && data.map((row) => (
                     <Row key={row.id} row={row} />
                   ))}
               </TableBody>

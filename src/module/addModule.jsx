@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Button, CircularProgress, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField } from '@mui/material';
 import properties from '../properties';
 import { useSnackbar } from 'notistack';
 import ProfApi from '../professor/profApi';
@@ -101,6 +101,9 @@ import ProfApi from '../professor/profApi';
                 onChange={handleChange}
                 multiple
              >
+               
+               {error && <div>{error}</div>}
+                {isLoading &&  <Box sx={{ width: '100%' }}><LinearProgress/></Box>}
                 {data && data.map(prof=> 
                   <MenuItem key={prof.id} value={prof.id}>{prof.name}</MenuItem> 
                   )}

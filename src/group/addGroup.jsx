@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField } from '@mui/material';
 import properties from '../properties';
 import { useSnackbar } from 'notistack';
 import ModuleApi from '../module/modulesApi';
@@ -45,15 +45,13 @@ import ModuleApi from '../module/modulesApi';
   ////////////////////////////////////////////////////
   return (
     <div>
-      <h1>Add Module</h1>
+      <h1>Add Groups</h1>
       <Formik
         initialValues={{ title: '', numberOfStudents: '', groupNumber:'', modulesIds:[] }}
         onSubmit={(values, { setSubmitting }) => save(values, { setSubmitting }) }
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
           handleSubmit,
@@ -108,6 +106,8 @@ import ModuleApi from '../module/modulesApi';
                   onChange={handleChange}
                   multiple
               >
+                  {error && <div>{error}</div>}
+                  {isLoading &&  <Box sx={{ width: '100%' }}> <LinearProgress /> </Box>}
                   {data && data.map(aModule=> 
                     <MenuItem key={aModule.id} value={aModule.id}>{aModule.moduleCode}</MenuItem> 
                     )}

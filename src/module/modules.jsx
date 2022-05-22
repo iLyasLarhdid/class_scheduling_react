@@ -1,4 +1,4 @@
-import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Collapse, IconButton, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import RoomApi from './modulesApi';
  
@@ -73,9 +73,11 @@ function Row(props) {
               </TableRow>
               </TableHead>
               <TableBody>
-                  {data && data.map((row) => (
-                    <Row key={row.id} row={row} />
-                  ))}
+                {error && <div>{error}</div>}
+                {isLoading &&  <Box sx={{ width: '100%' }}><LinearProgress/></Box>}
+                {data && data.error === undefined && data.map((row) => (
+                  <Row key={row.id} row={row} />
+                ))}
               </TableBody>
           </Table>
         </TableContainer>

@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import ProfApi from './profApi';
 
@@ -17,7 +17,9 @@ import ProfApi from './profApi';
             </TableRow>
             </TableHead>
             <TableBody>
-            {data && data.map((prof) => (
+            {error && <div>{error}</div>}
+            {isLoading &&  <Box sx={{ width: '100%' }}> <LinearProgress /> </Box>}
+            {data && data.error === undefined && data.map((prof) => (
                 <TableRow
                 key={prof.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

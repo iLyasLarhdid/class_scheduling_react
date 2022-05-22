@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import RoomApi from './roomsApi';
  
@@ -18,16 +18,18 @@ import RoomApi from './roomsApi';
             </TableRow>
             </TableHead>
             <TableBody>
-            {data && data.map((room) => (
-                <TableRow
-                key={room.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                <TableCell align="right">{room.title}</TableCell>
-                <TableCell align="right">{room.capacity}</TableCell>
-                <TableCell align="right">{room.roomType}</TableCell>
-                </TableRow>
-            ))}
+                {error && <div>{error}</div>}
+                {isLoading &&  <Box sx={{ width: '100%' }}> <LinearProgress /> </Box>}
+                {data && data.error === undefined && data.map((room) => (
+                    <TableRow
+                    key={room.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                    <TableCell align="right">{room.title}</TableCell>
+                    <TableCell align="right">{room.capacity}</TableCell>
+                    <TableCell align="right">{room.roomType}</TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
         </TableContainer>
