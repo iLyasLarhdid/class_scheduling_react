@@ -33,9 +33,12 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 
     var difference= Math.abs(endDate-startDate);
     let numberOfDays = difference/(1000 * 3600 * 24)+1;
-
+    let demo=[numberOfDays];
+    for (let index = 0; index < numberOfDays; index++){
+      demo[index] = index;
+    }
     console.log(numberOfDays)
-    for (let index = 0; index < numberOfDays; index++) {
+    demo.map(d=>{
       if( weekday[startDate.getDay()] !== "Sunday" && weekday[startDate.getDay()] !== "Saturday" ){
         dayPeriods.map(periodTime=>period=[...period,
           {"period":month[startDate.getMonth()]+' '+startDate.getDate()+' '+ weekday[startDate.getDay()]+' '+startDate.getFullYear()+' '+periodTime}
@@ -43,7 +46,9 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
         );
       }
       startDate.setDate(startDate.getDate()+1);
-    }
+      return 0;
+    })
+    
     console.log(period);
     enqueueSnackbar('saving the product!', {
       variant: 'info',
