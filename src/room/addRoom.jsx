@@ -48,7 +48,7 @@ import { useSnackbar } from 'notistack';
     <div>
       <h1>Add Rooms</h1>
       <Formik
-        initialValues={{ title: '', capacity: 0, roomType:3 }}
+        initialValues={{ title: '', capacity: '', roomType:3 }}
         onSubmit={(values, { setSubmitting },onSubmitProps) => {save(values, { setSubmitting }); onSubmitProps.resetForm() }}
       >
         {({

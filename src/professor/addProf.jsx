@@ -11,7 +11,6 @@ import { useSnackbar } from 'notistack';
   ///////////////////////////////////////////////////////
   const save = (values,{ setSubmitting } )=>{
     console.log("save");
-    enqueueSnackbar('saving the product!', { variant: 'info', action:()=><CircularProgress color="success" />, key: 100} );
     const name = values.name;
     const url = `${host}/api/v1/professors`;
     fetch(url,{
