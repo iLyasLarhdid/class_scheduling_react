@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ScheduleApi from './scheduleAPi';
-import { Box, LinearProgress, Tooltip } from '@mui/material';
+import { Box, LinearProgress } from '@mui/material';
 
 export default function ScheduleTable({action}) {
         
@@ -37,11 +37,7 @@ export default function ScheduleTable({action}) {
                 <TableCell component="th" scope="row" align="left">
                     {datum.group.groupTitle} {datum.group.groupNumber}
                 </TableCell>
-                <TableCell align="left">
-                    <Tooltip title={datum.module.moduleTitle} placement="top-start">
-                        {datum.module.moduleCode}
-                    </Tooltip>
-                </TableCell>
+                <TableCell align="left">{datum.module.moduleCode}</TableCell>
                 <TableCell align="left">{datum.period.period}</TableCell>
                 <TableCell align="left">{datum.professor.name}</TableCell>
                 <TableCell align="left">{datum.room.title}</TableCell>
