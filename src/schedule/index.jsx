@@ -10,7 +10,6 @@ import { useSnackbar } from 'notistack';
 const {host} = properties;
 
 
-
 const Schedule = ()=>{
   const { enqueueSnackbar } = useSnackbar();
   const getNew = async (key)=>{
