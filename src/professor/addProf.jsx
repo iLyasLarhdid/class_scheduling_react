@@ -5,20 +5,22 @@ import properties from '../properties';
 import { useSnackbar } from 'notistack';
 
 
- const ProfForm = () => {
+const ProfForm = ({updateProf,setUpdateProf}) => {
   const { enqueueSnackbar } = useSnackbar();
   const {host} = properties;
-  ///////////////////////////////////////////////////////
+  //////////////////////// Save/Update Form ///////////////////////////////
   const save = (values,{ setSubmitting } )=>{
-    console.log("save");
+    console.log("save/update ",values);
     const name = values.name;
+    const professorId = values.id;
+    const myMethod = updateProf!==null?'put':'post';
     const url = `${host}/api/v1/professors`;
     fetch(url,{
-        method:"post",
+        method:myMethod,
         headers: { 
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name })
+        body: JSON.stringify({ professorId, name })
     })
     .then(response =>{ 
         if(!response.ok){
@@ -37,11 +39,16 @@ import { useSnackbar } from 'notistack';
     });
   }
   ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  console.log(updateProf);
   return (
     <div>
       <h1>Add Professor</h1>
       <Formik
-        initialValues={{ name: '' }}
+        initialValues={{
+          id: updateProf!==null?updateProf.id:"",
+          name:updateProf!==null?updateProf.name:"",
+        }}
         onSubmit={(values, { setSubmitting },onSubmitProps) => {save(values, { setSubmitting }); onSubmitProps.resetForm() }}
       >
         {({
@@ -59,6 +66,7 @@ import { useSnackbar } from 'notistack';
                  required
                  id="1"
                  label="name"
+                 value={values.name}
                  type="text"
                  name="name"
                  onChange={handleChange}

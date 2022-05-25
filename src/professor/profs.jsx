@@ -1,8 +1,8 @@
-import { Box, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import ProfApi from './profApi';
 
- const ProfsDisplay = () => {
+ const ProfsDisplay = ({setUpdateProf, setShowAdd}) => {
     const {data,isLoading,error} = ProfApi();
     console.log(data);
     return (
@@ -25,7 +25,10 @@ import ProfApi from './profApi';
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                 <TableCell align="left">{prof.name}</TableCell>
-                <TableCell align="left">action</TableCell>
+                <TableCell align="left">
+                    <Button variant="contained" color="success" onClick={()=>{setUpdateProf(prof);setShowAdd(old=>!old)}}>Update</Button>
+                    <Button variant="outlined" color="error" sx={{ ml:'1em' }}>Delete</Button>
+                </TableCell>
                 </TableRow>
             ))}
             </TableBody>

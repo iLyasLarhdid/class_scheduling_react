@@ -7,16 +7,47 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ScheduleApi from './scheduleAPi';
-import { Box, LinearProgress } from '@mui/material';
+import { Box, Button, LinearProgress } from '@mui/material';
 
 export default function ScheduleTable({action}) {
         
 
     const {data,isLoading,error} = ScheduleApi({action});
     console.log(data);
+    // Function to download data to a file
+    function download(filename, type) {
+        if(data){
+            const header = ['Group','module','Period','Professor','Room']
+            let csvString = "";
+            header.map(val=>csvString+=val+',');
+            csvString+='\r\n';
+            data.map(row=>
+                csvString+=row.group.groupTitle+' '+row.group.groupNumber+','+row.module.moduleTitle+','+row.period.period+','+row.professor.name+','+row.room.title+'\r\n'
+            )
+            var file = new Blob([csvString], {type: type});
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                        url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);  
+                }, 0); 
+            }
+        }
+    }
+
     return (
         <TableContainer component={Paper} >
         <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+            <TableHead>
+            <Button color="success" onClick={()=>download('myfilename.csv', 'text/plain')}>Download file</Button>
+            </TableHead>
             <TableHead>
             <TableRow selected={true}>
                 <TableCell align="left"><b>Groups</b></TableCell>
