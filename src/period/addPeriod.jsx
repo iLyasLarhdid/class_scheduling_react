@@ -78,8 +78,8 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
   }
   ////////////////////////////////////////////////////
   return (
-    <div>
-      <h1>Add Period</h1>
+    <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
+      <h1 style={{ borderBottom:"2px solid grey" }}>Add Period</h1>
       <FormControl fullWidth sx={{ mt:"1em" }}>
         <DateRangePicker
           onChange={item => setState([item.selection])}

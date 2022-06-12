@@ -45,8 +45,8 @@ import { useSnackbar } from 'notistack';
   }
   ////////////////////////////////////////////////////
   return (
-    <div>
-      <h1>Add Rooms</h1>
+    <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
+      <h1 style={{ borderBottom:"2px solid grey" }}>Add Rooms</h1>
       <Formik
         initialValues={{ title: '', capacity: '', roomType:3 }}
         onSubmit={(values, { setSubmitting },onSubmitProps) => {save(values, { setSubmitting }); onSubmitProps.resetForm() }}
@@ -85,6 +85,8 @@ import { useSnackbar } from 'notistack';
                  sx={{ml:"1em" }}
                  />
             {errors.capacity && touched.capacity && errors.capacity}
+            <br/>
+            <br/>
             <Select
                labelId="demo-simple-select-label"
                id="demo-simple-select"

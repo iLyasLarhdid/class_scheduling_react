@@ -42,8 +42,8 @@ const ProfForm = ({updateProf,setUpdateProf}) => {
   ////////////////////////////////////////////////////
   console.log(updateProf);
   return (
-    <div>
-      <h1>Add Professor</h1>
+    <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
+      <h1 style={{ borderBottom:"2px solid grey" }}>Add Professor</h1>
       <Formik
         initialValues={{
           id: updateProf!==null?updateProf.id:"",
@@ -73,7 +73,8 @@ const ProfForm = ({updateProf,setUpdateProf}) => {
                  onBlur={handleBlur}
                  />
             {errors.name && touched.name && errors.name}
-            <Button type="submit" disabled={isSubmitting}  variant="contained" size="large" sx={{ p: "1em",ml:"1em" }}>
+            <br/><br/>
+            <Button type="submit" disabled={isSubmitting}  variant="contained" size="large" sx={{ p: "1em"}}>
               Submit
             </Button>
             <Button type="reset" variant="contained" size="large" sx={{ p: "1em",ml:"1em" }}>

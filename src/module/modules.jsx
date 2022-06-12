@@ -1,14 +1,46 @@
-import { Box, Collapse, IconButton, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, CircularProgress, Collapse, IconButton, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import RoomApi from './modulesApi';
  
+import properties from '../properties';
+import { useSnackbar } from 'notistack';
+
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function Row(props) {
     const { row } = props;
+    const {setUpdateMod, setShowAdd} = props
     const [open, setOpen] = React.useState(false);
-  
+    
+    const { enqueueSnackbar } = useSnackbar();
+    const {host} = properties;
+  ///////////////////////////////////////////////////////
+  const deleteModule = (id)=>{
+    enqueueSnackbar('saving the product!', {
+      variant: 'info',
+      action:()=><CircularProgress color="success" />}
+      );
+    const moduleId = id;
+    const url = `${host}/api/v1/modules`;
+    fetch(url,{
+      method:'DELETE',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ moduleId })
+    })
+    .then(response =>{ 
+      console.log(response);
+      if(!response.ok){
+        enqueueSnackbar('Could not delete!', {variant: 'error'});
+      }
+      else{
+        enqueueSnackbar('Deleted!', {variant: 'success'});
+      }
+    });
+  }
+  ////////////////////////////////////////////////////
     return (
       <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -24,6 +56,9 @@ function Row(props) {
           <TableCell component="th" scope="row" align="left">{row.moduleCode}</TableCell>
           <TableCell align="left">{row.moduleTitle}</TableCell>
           <TableCell align="left">{row.roomType}</TableCell>
+          <TableCell align="left">
+            <Button variant="contained" color="success" onClick={()=>{setUpdateMod(row);setShowAdd(old=>!old)}}>Update</Button>
+            <Button variant="outlined" color="error" sx={{ ml:'1em' }} onDoubleClick={()=>deleteModule(row.id)}>Delete</Button></TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -56,7 +91,7 @@ function Row(props) {
   }
 
 
- const ModuleDisplay = () => {
+ const ModuleDisplay = ({setUpdateMod, setShowAdd}) => {
     const {data,isLoading,error} = RoomApi();
     console.log(data);
     return (
@@ -70,13 +105,14 @@ function Row(props) {
                   <TableCell align="left"><b>Code</b></TableCell>
                   <TableCell align="left"><b>Title</b></TableCell>
                   <TableCell align="left"><b>Room type</b></TableCell>
+                  <TableCell align="left"><b>Action</b></TableCell>
               </TableRow>
               </TableHead>
               <TableBody>
                 {error && <div>{error}</div>}
                 {isLoading &&  <Box sx={{ width: '100%' }}><LinearProgress/></Box>}
                 {data && data.error === undefined && data.map((row) => (
-                  <Row key={row.id} row={row} />
+                  <Row key={row.id} row={row} setUpdateMod={setUpdateMod} setShowAdd={setShowAdd}/>
                 ))}
               </TableBody>
           </Table>

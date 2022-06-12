@@ -44,8 +44,8 @@ import ModuleApi from '../module/modulesApi';
   }
   ////////////////////////////////////////////////////
   return (
-    <div>
-      <h1>Add Groups</h1>
+    <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
+      <h1 style={{ borderBottom:"2px solid grey" }}>Add Groups</h1>
       <Formik
         initialValues={{ title: '', numberOfStudents: '', groupNumber:'', modulesIds:[] }}
         onSubmit={(values, { setSubmitting }) => save(values, { setSubmitting }) }

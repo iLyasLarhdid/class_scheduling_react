@@ -6,7 +6,8 @@ import { useSnackbar } from 'notistack';
 import ProfApi from '../professor/profApi';
 
 
- const ModuleForm = () => {
+ const ModuleForm = ({updateMod, setUpdateMod}) => {
+  console.log(updateMod);
   const { enqueueSnackbar } = useSnackbar();
   const {data,isLoading,error} = ProfApi();
   console.log(data);
@@ -18,17 +19,19 @@ import ProfApi from '../professor/profApi';
       variant: 'info',
       action:()=><CircularProgress color="success" />}
       );
+    const moduleId = values.id;
     const moduleCode = values.code;
     const moduleTitle = values.title;
     const professorsIds = values.profsIds;
     const roomType = values.roomType;
+    const myMethod = updateMod!==null?'put':'post';
     const url = `${host}/api/v1/modules`;
     fetch(url,{
-      method:"post",
+      method:myMethod,
       headers: { 
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ moduleCode, moduleTitle, professorsIds, roomType})
+      body: JSON.stringify({ moduleId, moduleCode, moduleTitle, professorsIds, roomType})
     })
     .then(response =>{ 
       if(!response.ok){
@@ -47,11 +50,18 @@ import ProfApi from '../professor/profApi';
     });
   }
   ////////////////////////////////////////////////////
+  const roomTypeStringToId = {'ECONOMICS' : 0, 'COMPUTERS' : 1,'ELECTRONICS' : 2,'CASUAL' : 3}
   return (
-    <div>
-      <h1>Add Module</h1>
+    <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
+      <h1 style={{ borderBottom:"2px solid grey" }}>Add Module</h1>
       <Formik
-        initialValues={{ code: '', title: '', profsIds:[], roomType:'' }}
+        initialValues={{ 
+          id: updateMod!==null?updateMod.id:"",
+          code: updateMod!==null?updateMod.moduleCode:"",
+          title: updateMod!==null?updateMod.moduleTitle:"",
+          profsIds: updateMod!==null?updateMod.professors.map(prof => prof.id):[],
+          roomType:updateMod!==null?roomTypeStringToId[updateMod.roomType]:""
+        }}
         onSubmit={(values, { setSubmitting }) => save(values, { setSubmitting }) }
       >
         {({
@@ -70,11 +80,13 @@ import ProfApi from '../professor/profApi';
                 sx={{ mt:"1em" }}
                 required
                 id="1"
+                value={values.code}
                 label="Code"
                 type="text"
                 name="code"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                fullWidth   
                 />
               
               <br/>
@@ -82,11 +94,13 @@ import ProfApi from '../professor/profApi';
                 sx={{ mt:"1em" }}
                 required
                 id="1"
+                value={values.title}
                 label="Title"
                 type="text"
                 name="title"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                fullWidth
                  />
             <br/>
             <FormControl fullWidth sx={{ mt:"1em" }}>

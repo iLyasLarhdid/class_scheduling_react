@@ -5,7 +5,6 @@ import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -33,11 +32,9 @@ const Navbar = ({body})=>{
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar title='h' position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} color="inherit" enableColorOnDark>
         <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            School
-          </Typography>
+            <img src='images/logo.png' alt='ISGA logo' width='10%'/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -77,7 +74,9 @@ const Navbar = ({body})=>{
           </List>
         </Box>
       </Drawer>
-      {body}
+      <div style={{ backgroundColor:"#e6e6e6", width:'100%', height:'100%' }}>
+        {body}
+      </div>
     </Box>
   );
 }
