@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 import ModuleApi from '../module/modulesApi';
 
 
- const GroupForm = () => {
+ const GroupForm = ({update, setUpdate}) => {
   const { enqueueSnackbar } = useSnackbar();
   const {data,isLoading,error} = ModuleApi();
   console.log(data);
@@ -14,17 +14,19 @@ import ModuleApi from '../module/modulesApi';
   ///////////////////////////////////////////////////////
   const save = (values,{ setSubmitting } )=>{
     console.log(values);
+    const id = values.id;
     const title = values.title;
     const numberOfStudents = values.numberOfStudents;
-    const groupNumber = values.groupNumber;
     const modulesIds = values.modulesIds;
     const url = `${host}/api/v1/groups`;
+    
+    const myMethod = update!==null?'put':'post';
     fetch(url,{
-      method:"post",
+      method:myMethod,
       headers: { 
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ title, numberOfStudents, groupNumber, modulesIds })
+      body: JSON.stringify({ id, title, numberOfStudents, modulesIds })
     })
     .then(response =>{ 
       if(!response.ok){
@@ -47,7 +49,12 @@ import ModuleApi from '../module/modulesApi';
     <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
       <h1 style={{ borderBottom:"2px solid grey" }}>Add Groups</h1>
       <Formik
-        initialValues={{ title: '', numberOfStudents: '', groupNumber:'', modulesIds:[] }}
+        initialValues={{ 
+          id: update!==null?update.id:"",
+          title: update!==null?update.groupTitle:"",
+          numberOfStudents: update!==null?update.nstudents:"",
+          modulesIds:update!==null?update.modules.map(mod => mod.id):[]
+        }}
         onSubmit={(values, { setSubmitting }) => save(values, { setSubmitting }) }
       >
         {({
@@ -64,6 +71,7 @@ import ModuleApi from '../module/modulesApi';
                 sx={{ mt:"1em" }}
                 required
                 id="1"
+                value={values.title}
                 label="Title"
                 type="text"
                 name="title"
@@ -76,20 +84,10 @@ import ModuleApi from '../module/modulesApi';
                 sx={{ mt:"1em" }}
                 required
                 id="2"
+                value={values.numberOfStudents}
                 label="Number Of Students"
                 type="number"
                 name="numberOfStudents"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                 />
-              <br/>
-              <TextField
-                sx={{ mt:"1em" }}
-                required
-                id="3"
-                label="Group Number"
-                type="number"
-                name="groupNumber"
                 onChange={handleChange}
                 onBlur={handleBlur}
                  />

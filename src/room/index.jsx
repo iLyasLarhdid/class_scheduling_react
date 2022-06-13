@@ -8,15 +8,21 @@ import RoomsDisplay from './rooms';
 
 const Room = ()=>{
     const [showAdd, setShowAdd] = useState(false);
+    const [update, setUpdate] = useState(null);
+
     return(
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
         <Typography paragraph>
             <h1>Rooms</h1>
         </Typography>
-        <Button variant="contained" sx={{ mb: 2 }} onClick={()=>setShowAdd(old=>!old)}>{showAdd?<>Show room</>:<>Add room</>}</Button>
+        <Button variant="contained" sx={{ mb: 2 }} onClick={()=>{setShowAdd(old=>!old);;setUpdate(null)}}>{showAdd?<>Show room</>:<>Add room</>}</Button>
         <Typography paragraph>
-            {showAdd?<RoomForm/>:<RoomsDisplay/>}
+            {showAdd || update!==null?
+                <RoomForm update={update} setUpdate={setUpdate}/>
+                    :
+                <RoomsDisplay setUpdate={setUpdate} setShowAdd={setShowAdd}/>
+            }
         </Typography>
         </Box>
     )

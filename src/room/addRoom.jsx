@@ -5,7 +5,7 @@ import properties from '../properties';
 import { useSnackbar } from 'notistack';
 
 
- const RoomForm = () => {
+ const RoomForm = ({update}) => {
   const { enqueueSnackbar } = useSnackbar();
   const {host} = properties;
   ///////////////////////////////////////////////////////
@@ -15,17 +15,19 @@ import { useSnackbar } from 'notistack';
       variant: 'info',
       action:()=><CircularProgress color="success" />,
       key: 100}
-      );
+    );
+    const roomId = values.id;
     const title = values.title;
     const capacity = values.capacity;
     const roomType = values.roomType;
     const url = `${host}/api/v1/rooms`;
+    const myMethod = update!==null?'put':'post';
     fetch(url,{
-      method:"post",
+      method:myMethod,
       headers: { 
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ title, capacity, roomType})
+      body: JSON.stringify({roomId, title, capacity, roomType})
     })
     .then(response =>{ 
       if(!response.ok){
@@ -44,11 +46,18 @@ import { useSnackbar } from 'notistack';
     });
   }
   ////////////////////////////////////////////////////
+  
+  const roomTypeStringToId = {'ECONOMICS' : 0, 'COMPUTERS' : 1,'ELECTRONICS' : 2,'CASUAL' : 3}
   return (
     <div style={{ backgroundColor:"white", padding:"1em", borderRadius:"10px" }}>
       <h1 style={{ borderBottom:"2px solid grey" }}>Add Rooms</h1>
       <Formik
-        initialValues={{ title: '', capacity: '', roomType:3 }}
+        initialValues={{ 
+          id: update!==null?update.id:"",
+          title:  update!==null?update.title:"",
+          capacity:  update!==null?update.capacity:"",
+          roomType: update!==null?roomTypeStringToId[update.roomType]:3
+        }}
         onSubmit={(values, { setSubmitting },onSubmitProps) => {save(values, { setSubmitting }); onSubmitProps.resetForm() }}
       >
         {({
@@ -66,6 +75,7 @@ import { useSnackbar } from 'notistack';
               <TextField
                  required
                  id="1"
+                 value={values.title}
                  label="Title"
                  type="text"
                  name="title"
@@ -76,12 +86,12 @@ import { useSnackbar } from 'notistack';
              <TextField
                  required
                  id="2"
+                 value={values.capacity}
                  label="capacity"
                  type="number"
                  name="capacity"
                  onChange={handleChange}
                  onBlur={handleBlur}
-                 value={values.capacity}
                  sx={{ml:"1em" }}
                  />
             {errors.capacity && touched.capacity && errors.capacity}

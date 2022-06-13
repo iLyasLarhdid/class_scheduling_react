@@ -3,8 +3,8 @@ import React from 'react';
  
 import PeriodApi from './periodApi';
 
-const PeriodDisplay = () => {
-    const {data,isLoading,error} = PeriodApi();
+const PeriodDisplay = ({action}) => {
+    const {data,isLoading,error} = PeriodApi(action);
     console.log(data);
     return (
         <div>
