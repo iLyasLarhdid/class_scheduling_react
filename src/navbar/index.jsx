@@ -10,7 +10,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -34,7 +34,7 @@ const Navbar = ({body})=>{
       <CssBaseline />
       <AppBar title='h' position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} color="inherit" enableColorOnDark>
         <Toolbar>
-            <img src='images/logo.png' alt='ISGA logo' width='10%'/>
+            <Link to={'/'}><img src='images/logo.png' alt='ISGA logo' width='10%'/></Link>
         </Toolbar>
       </AppBar>
       <Drawer
