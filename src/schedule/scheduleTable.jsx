@@ -10,7 +10,6 @@ import ScheduleApi from './scheduleAPi';
 import { Box, Button, LinearProgress } from '@mui/material';
 
 export default function ScheduleTable({action}) {
-        
 
     const {data,isLoading,error} = ScheduleApi({action});
     console.log(data);
@@ -22,7 +21,7 @@ export default function ScheduleTable({action}) {
             header.map(val=>csvString+=val+',');
             csvString+='\r\n';
             data.map(row=>
-                csvString+=row.group.groupTitle+' '+row.group.groupNumber+','+row.module.moduleTitle+','+row.period.period+','+row.professor.name+','+row.room.title+'\r\n'
+                csvString+=row.group.groupTitle+','+row.module.moduleTitle+','+row.period.period+','+row.professor.name+','+row.room.title+'\r\n'
             )
             var file = new Blob([csvString], {type: type});
             if (window.navigator.msSaveOrOpenBlob) // IE10+
@@ -60,7 +59,8 @@ export default function ScheduleTable({action}) {
             <TableBody>
             {error && <div>{error}</div>}
             {isLoading &&  <Box sx={{ width: '100%' }}> <LinearProgress /> </Box>}
-            {data && data.error === undefined && data.map((datum) => (
+            {data && data.error === undefined && data.map((datum) => {
+                return (
                 <TableRow
                 key={datum.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -73,7 +73,9 @@ export default function ScheduleTable({action}) {
                 <TableCell align="left">{datum.professor.name}</TableCell>
                 <TableCell align="left">{datum.room.title}</TableCell>
                 </TableRow>
-            ))}
+                )
+            }
+            )}
             </TableBody>
         </Table>
         </TableContainer>

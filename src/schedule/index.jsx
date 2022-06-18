@@ -22,12 +22,14 @@ const Schedule = ()=>{
             'Content-Type' : 'application/json'
         }
     }).then(data=>{
-      console.log("upload=>");
-      console.log(data);
-      setAction(old=>!old);
-      enqueueSnackbar('the classes have been generated!', {variant: 'success'});
+      if(data.ok){
+        enqueueSnackbar('the classes have been generated!', {variant: 'success'});
+        setAction(old=>!old);
+      }
+      else
+        enqueueSnackbar('Try again!', {variant: 'error'});
+        
     });
-    console.log(res);
     return res.json();
   }
   //////////////////////////

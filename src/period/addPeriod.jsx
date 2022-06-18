@@ -21,7 +21,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
   const save = ()=>{
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-    const dayPeriods = ['9:00 - 10:30','10:45 - 12:15','13:15 - 14:45','15:00 - 16:30'];
+    const dayPeriods = ['09:00 - 10:30','10:45 - 12:15','13:15 - 14:45','15:00 - 16:30'];
     console.log('*--------*',state[0]);
     console.log('day',state[0].startDate.getDate()+1);
     console.log('day',weekday[state[0].startDate.getDay()]);
