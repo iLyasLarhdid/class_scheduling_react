@@ -107,7 +107,7 @@ import ModuleApi from '../module/modulesApi';
                   {error && <div>{error}</div>}
                   {isLoading &&  <Box sx={{ width: '100%' }}> <LinearProgress /> </Box>}
                   {data && data.map(aModule=> 
-                    <MenuItem key={aModule.id} value={aModule.id}>{aModule.moduleCode}</MenuItem> 
+                    <MenuItem key={aModule.id} value={aModule.id}>{aModule.moduleTitle}</MenuItem> 
                     )}
               </Select>
             </FormControl>
