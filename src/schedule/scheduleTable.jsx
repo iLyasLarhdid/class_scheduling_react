@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import ScheduleApi from './scheduleAPi';
 import { Box, Button, LinearProgress } from '@mui/material';
 
-export default function ScheduleTable({action}) {
+export default function ScheduleTable({action,setAlreadyGenerated}) {
 
     const {data,isLoading,error} = ScheduleApi({action});
     console.log(data);
@@ -17,7 +17,7 @@ export default function ScheduleTable({action}) {
     function download(filename, type) {
         if(data){
             const header = ['Group','module','Period','Professor','Room']
-            let csvString = "";
+            let csvString = "\ufeff";
             header.map(val=>csvString+=val+',');
             csvString+='\r\n';
             data.map(row=>
@@ -41,11 +41,15 @@ export default function ScheduleTable({action}) {
         }
     }
 
+    if(data && data.error === undefined && data.length!==0){
+        setAlreadyGenerated(true);
+        console.log("its true",data);
+    }
     return (
         <TableContainer component={Paper} >
         <Table sx={{ minWidth: 650 }} aria-label="simple table" >
             <TableHead>
-            <Button color="success" onClick={()=>download('myfilename.csv', 'text/plain')}>Download file</Button>
+            <Button color="success" disabled={data && data.error === undefined && data.length!==0 ? false:true} onClick={()=>download('myfilename.csv', 'text/plain')}>Download file</Button>
             </TableHead>
             <TableHead>
             <TableRow selected={true}>

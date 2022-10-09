@@ -11,7 +11,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Link, useNavigate } from 'react-router-dom';
-import SettingsIcon from '@mui/icons-material/Settings';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
@@ -25,9 +24,17 @@ const Navbar = ({body})=>{
   const navigate = useNavigate();
   
   //top items in the menu
-  const topItems = [['Professors','/professors',<AssignmentIndIcon/>], ['Modules', '/modules',<ClassIcon/>], ['Rooms','/rooms',<MeetingRoomIcon/>], ['Periods','/periods',<AccessTimeFilledIcon/>],['Groups','/groups',<GroupsIcon/>]];
+  const topItems = [
+    ['Professors','/professors',<AssignmentIndIcon/>],
+    ['Modules', '/modules',<ClassIcon/>],
+    ['Rooms','/rooms',<MeetingRoomIcon/>],
+    ['Periods','/periods',<AccessTimeFilledIcon/>],
+    ['Groups','/groups',<GroupsIcon/>]
+  ];
   //bottom items in the menu
-  const botItems = [['Schedule','/schedule',<DateRangeIcon/>],['Settings','/settings',<SettingsIcon/>]];
+  const botItems = [
+    ['Schedule','/schedule',<DateRangeIcon/>]
+  ];
 
   return (
     <Box sx={{ display: 'flex' }}>
