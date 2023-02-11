@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ScheduleTable from './scheduleTable';
-import { Button, CircularProgress, Popover } from '@mui/material';
+import { Button, CircularProgress, LinearProgress, Popover } from '@mui/material';
 import properties from "../properties";
 import { useSnackbar } from 'notistack';
+import SockJS from 'sockjs-client';
+import Stomp from "stompjs";
 
 const {host} = properties;
-
+const url = `${host}/ws`;
 
 const Schedule = ()=>{
   
@@ -17,6 +19,7 @@ const Schedule = ()=>{
   const [alreadyGenerated, setAlreadyGenerated] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElDelete, setAnchorElDelete] = useState(null);
+  const [loadingValue, setLoadingValue] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -40,7 +43,8 @@ const Schedule = ()=>{
   const idDelete = openDelete ? 'simple-popover-delete' : undefined;
   //////////////////////
   const getNew = async ()=>{
-    enqueueSnackbar('saving the product!', { variant: 'info', action:()=><CircularProgress color="success" />} );
+    setLoadingValue(0);
+    enqueueSnackbar('Generating new Schedule!', { variant: 'info', action:()=><CircularProgress color="success" />} );
     const url = `${host}/api/v1/schedules/generate`;
     const res = await fetch(url,{
         headers: {
@@ -50,9 +54,14 @@ const Schedule = ()=>{
       if(data.ok){
         enqueueSnackbar('the classes have been generated!', {variant: 'success'});
         setAction(old=>!old);
+        for(let i = 90; i<=100; i++){
+          setLoadingValue(i);
+        }
       }
-      else
+      else{
         enqueueSnackbar('Try again!', {variant: 'error'});
+        setLoadingValue(null);
+      }
         
     });
     return res.json();
@@ -80,6 +89,30 @@ const Schedule = ()=>{
   }
   ////////////////////////////////////////////////////
   //////////////////////////
+
+  useEffect(()=>{
+    let sock = new SockJS(url);
+    let stompClient = Stomp.over(sock);
+    stompClient.connect({"Authorization": "token"},(frame)=>{
+        stompClient.subscribe(`/queue/to/generate`
+            ,(response)=>{
+            let data = JSON.parse(response.body);
+            console.log("conversation that got the new message ",data);
+            setLoadingValue(data);
+            // setConversations(prevM=>{
+            //     return prevM.filter(element => data.id !== element.id).map(element=> element);
+            // });
+            //setRefresh(prev=>!prev);
+            //setConversations(prevM=>{return [data.conversation,...prevM]});
+            //sleep(50).then(()=>{scroller.scrollTo({top:scroller.scrollHeight,left:0,behavior:'smooth'},document.body.scrollHeight)});
+            }
+        );
+        //stompClient.send('/topic/your_topic',{},'your message');
+    })
+  },[])
+
+  /////////////////////////////////////////////////////
+  /////////////////////////
   return(
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Toolbar />
@@ -127,6 +160,9 @@ const Schedule = ()=>{
         </center>
       </Popover>
       <Typography paragraph>
+        <Box sx={{ width: '100%' }}>
+          {loadingValue!==null && <><LinearProgress variant="determinate" value={loadingValue} />{loadingValue.toFixed(2)}%</>}
+        </Box>
         <ScheduleTable action={action} setAlreadyGenerated={setAlreadyGenerated}/>
       </Typography>
     </Box>
