@@ -8,11 +8,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ScheduleApi from './scheduleAPi';
 import { Box, Button, LinearProgress } from '@mui/material';
+import moment from 'moment';
 
 export default function ScheduleTable({action,setAlreadyGenerated}) {
 
     const {data,isLoading,error} = ScheduleApi({action});
     console.log(data);
+    //console.log("hhhh:",moment(data[0].period.period.split(" - ")[0],"MMM D dddd YYYY  HH:mm").format('D MMM HH:mm'),"=>",moment(data[1].period.period.split(" - ")[1],"HH:mm").format('HH:mm'));
     // Function to download data to a file
     function download(filename, type) {
         if(data){
@@ -20,8 +22,12 @@ export default function ScheduleTable({action,setAlreadyGenerated}) {
             let csvString = "\ufeff";
             header.map(val=>csvString+=val+',');
             csvString+='\r\n';
-            data.map(row=>
-                csvString+=row.group.groupTitle+','+row.module.moduleTitle+','+row.period.period+','+row.professor.name+','+row.room.title+'\r\n'
+            data.map(row=>{
+                let period = moment(row.period.period.split(" - ")[0],"MMM D dddd YYYY  HH:mm").format('D MMM HH:mm');
+                period =period +"->"+ moment(row.period.period.split(" - ")[1],"HH:mm").format(' HH:mm');
+                csvString+=row.group.groupTitle+','+row.module.moduleTitle+','+period+','+row.professor.name+','+row.room.title+'\r\n'
+                return 1;
+                }
             )
             var file = new Blob([csvString], {type: type});
             if (window.navigator.msSaveOrOpenBlob) // IE10+
@@ -73,7 +79,7 @@ export default function ScheduleTable({action,setAlreadyGenerated}) {
                     {datum.group.groupTitle} {datum.group.groupNumber}
                 </TableCell>
                 <TableCell align="left">{datum.module.moduleCode}</TableCell>
-                <TableCell align="left">{datum.period.period}</TableCell>
+                <TableCell align="left">{moment(datum.period.period.split(" - ")[0],"MMM D dddd YYYY  HH:mm").format('D MMM HH:mm')+" , "+ moment(datum.period.period.split(" - ")[1],"HH:mm").format(' HH:mm')}</TableCell>
                 <TableCell align="left">{datum.professor.name}</TableCell>
                 <TableCell align="left">{datum.room.title}</TableCell>
                 </TableRow>

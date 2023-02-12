@@ -11,7 +11,14 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { SnackbarProvider } from "notistack";
 
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        //other query settings
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
   return (
     <SnackbarProvider maxSnack={2}>
